@@ -1,0 +1,2 @@
+../Core/Inc/spatial-lib/src/accel_mpu6050.c:10:9:mpu6050_basic_init	44
+../Core/Inc/spatial-lib/src/accel_mpu6050.c:458:9:mpu6050_basic_read	2

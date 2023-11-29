@@ -1,0 +1,6 @@
+../Core/Inc/spatial-lib/src/vectors.c:8:13:magnitude	1
+../Core/Inc/spatial-lib/src/vectors.c:14:6:vector_euler_step	1
+../Core/Inc/spatial-lib/src/vectors.c:22:6:euler_step	1
+../Core/Inc/spatial-lib/src/vectors.c:26:6:vector_forward_difference	1
+../Core/Inc/spatial-lib/src/vectors.c:32:11:cartesian_to_spherical	2
+../Core/Inc/spatial-lib/src/vectors.c:43:11:spherical_to_cartesian	1

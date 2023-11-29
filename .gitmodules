@@ -1,0 +1,3 @@
+[submodule "Core/Inc/spatial-lib"]
+	path = Core/Inc/spatial-lib
+	url = https://github.com/eboard-boys/spatial-lib.git

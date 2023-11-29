@@ -1,0 +1,2 @@
+../Core/Inc/spatial-lib/src/interface.c:9:19:init_spatial	24	static
+../Core/Inc/spatial-lib/src/interface.c:23:19:update_acceleration	16	static

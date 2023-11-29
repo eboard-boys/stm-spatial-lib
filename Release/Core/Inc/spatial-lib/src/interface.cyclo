@@ -1,0 +1,2 @@
+../Core/Inc/spatial-lib/src/interface.c:7:9:init_accelerometer	2
+../Core/Inc/spatial-lib/src/interface.c:15:9:get_acceleration	1
