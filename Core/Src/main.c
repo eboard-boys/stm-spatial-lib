@@ -43,6 +43,8 @@
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c1;
 
+TIM_HandleTypeDef htim2;
+
 UART_HandleTypeDef huart2;
 
 /* Definitions for defaultTask */
@@ -61,6 +63,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_TIM2_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -118,6 +121,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   printf("Starting kernel...\r\n");
   /* USER CODE END 2 */
@@ -265,6 +269,52 @@ static void MX_I2C1_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 9999;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 4294967295;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+  // Start TIM2
+  HAL_TIM_Base_Start(&htim2);
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -344,6 +394,15 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+// Get stored time in timer 2 in terms of seconds
+double get_timestep() {
+	long double cur_time = TIM2->CNT;
+	// Reset timer for next call
+	TIM2->CNT = 0;
+	// Division to make time in terms of seconds
+	cur_time /= 8000;
+	return (double)cur_time;
+}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -358,10 +417,11 @@ void StartDefaultTask(void *argument)
   /* USER CODE BEGIN 5 */
 	init_spatial(&hi2c1, &huart2);
   /* Infinite loop */
-  for(;;)
-  {
-	  update_acceleration();
-	  printf("x: %.2f, y: %.2f, z: %.2f\r\n", current_acceleration[0], current_acceleration[1], current_acceleration[2]);
+  for(;;) {
+	  update_spatial(get_timestep());
+	  printf("Acceleration x: %.2f, y: %.2f, z: %.2f\r\n", current_acceleration[0], current_acceleration[1], current_acceleration[2]);
+	  printf("Speed: %.2f m/s\r\n", current_speed);
+	  printf("Trip: %.2f m\r\n", current_distance);
 //	  osDelay(1);
 //	  HAL_Delay(10);
   }

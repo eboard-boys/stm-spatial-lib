@@ -1,2 +1,5 @@
-../Core/Inc/spatial-lib/src/interface.c:9:19:init_spatial	24	static
-../Core/Inc/spatial-lib/src/interface.c:23:19:update_acceleration	16	static
+../Core/Inc/spatial-lib/src/interface.c:18:19:init_spatial	24	static
+../Core/Inc/spatial-lib/src/interface.c:35:6:reset_velocity	4	static
+../Core/Inc/spatial-lib/src/interface.c:43:6:reset_trip	4	static
+../Core/Inc/spatial-lib/src/interface.c:51:19:update_acceleration_averages	32	static
+../Core/Inc/spatial-lib/src/interface.c:70:19:update_spatial	24	static
